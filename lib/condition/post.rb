@@ -1,4 +1,4 @@
-require 'time'
+# coding: utf-8
 
 module Condition
   class Post

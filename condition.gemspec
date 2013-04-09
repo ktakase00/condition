@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Condition::VERSION
   spec.authors       = ["aoyagikouhei"]
   spec.email         = ["aoyagi.kouhei@gmail.com"]
-  spec.description   = %q{Condition}
-  spec.summary       = %q{Condition}
+  spec.description   = %q{Condition Test}
+  spec.summary       = %q{Condition Test}
   spec.homepage      = "https://github.com/aoyagikouhei/condition"
   spec.license       = "MIT"
 

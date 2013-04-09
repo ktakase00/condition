@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module Condition
   class Pre
     include Condition::Reader;

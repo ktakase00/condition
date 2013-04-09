@@ -1,3 +1,6 @@
+# coding: utf-8
+require 'time'
+
 module Condition
   class Table
     def initialize(rows)
