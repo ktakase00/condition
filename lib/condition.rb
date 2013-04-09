@@ -1,2 +1,5 @@
 require "condition/version"
+require "condition/reader"
 require "condition/pre"
+require "condition/post"
+require "condition/table"

@@ -1,11 +1,9 @@
 require 'spec_helper'
 describe Condition do
-  describe Condition::Pre do
-    it 'initialize' do
-      pre = Condition::Pre.new(
-        'postgres://localhost:5432/test?user=aoyagikouhei', 
-        FILES + '/t_user.ods')
-      pre.exec
-    end
+  it 'pre and post' do
+    pre = Condition::Pre.new(FILES + '/t_user.ods')
+    pre.exec(DB)
+    post = Condition::Post.new(FILES + '/t_user.ods', 1)
+    post.exec(DB)
   end
 end
