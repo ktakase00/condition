@@ -6,9 +6,21 @@ describe Condition do
   end
   
   it 'pre and post' do
-    pre = Condition::Pre.new(FILES + '/t_user.ods')
-    pre.exec(DB)
-    post = Condition::Post.new(FILES + '/t_user.ods', 1)
-    post.exec(DB)
+    param = Condition::Param.new(FILES + '/t_user.ods')
+    param.pre(DB)
+    param = Condition::Param.new(FILES + '/t_user.ods', 1)
+    param.post(DB)
+  end
+
+  it 'pre and params' do
+    param = Condition::Param.new(FILES + '/t_user.ods')
+    param.pre(DB)
+
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    ds = DB[:t_user].prepare(:insert, :insert_with_name, {user_id: :$user_id, user_name: :$user_name})
+    ds.call(param.get_one('ins'))
+
+    list = DB["SELECT * FROM t_user"].all
+    param.check('list', list)
   end
 end

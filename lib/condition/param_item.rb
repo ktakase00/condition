@@ -2,9 +2,9 @@
 require 'time'
 
 module Condition
-  class Table
+  class ParamItem
     def initialize(rows)
-      @table_name = rows[0][0]
+      @name = rows[0][0]
       @keys = rows[0].size > 1 ? rows[0][1..rows.size - 1] : []
       body = rows[1..rows.size - 1]
       @values = []
@@ -24,16 +24,28 @@ module Condition
       end
     end
 
+    def name
+      @name
+    end
+
+    def value
+      @values[0]
+    end
+
+    def values
+      @values
+    end
+
     def all(db)
-      db["SELECT * FROM #{@table_name}"].all
+      db["SELECT * FROM #{@name}"].all
     end
 
     def delete(db)
-      db["DELETE FROM #{@table_name}"].delete
+      db["DELETE FROM #{@name}"].delete
     end
 
     def insert(db)
-      ds = db[@table_name.to_sym].prepare(:insert, :insert_with_name, @params)
+      ds = db[@name.to_sym].prepare(:insert, :insert_with_name, @params)
       @values.each do |it|
         ds.call(it)
       end
@@ -63,7 +75,7 @@ module Condition
       elsif !targetFlag
         return false
       else
-        raise "#{@table_name} not match " + real.to_s
+        raise "#{@name} not match " + real.to_s
       end
     end
 
@@ -71,7 +83,7 @@ module Condition
       @values.each do |value|
         return if check_value(real, value)
       end
-      raise "#{@table_name} not found " + real.to_s
+      raise "#{@name} not found " + real.to_s
     end
 
   end

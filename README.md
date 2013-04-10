@@ -27,3 +27,12 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Changes
+
+2013-04-11 0.0.2
+add param, param_item
+delete pre, post, reader, table
+
+2013-04-10 0.0.1
+first release
