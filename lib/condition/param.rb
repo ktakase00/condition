@@ -42,12 +42,20 @@ module Condition
       end
     end
 
+    def item(name)
+      @item_map[name]
+    end
+
     def get(name)
-      @item_map[name].values
+      item = @item_map[name]
+      return nil if !item
+      item.values
     end
 
     def get_one(name)
-      @item_map[name].value
+      item = @item_map[name]
+      return nil if !item
+      item.value
     end
 
     def check(name, data)
@@ -57,10 +65,10 @@ module Condition
       end
     end
 
-    def pre(db)
+    def pre(db, default=nil)
       @item_map.each_value do |item|
         item.delete(db)
-        item.insert(db)
+        item.insert(db, default)
       end
     end
 

@@ -36,6 +36,10 @@ module Condition
       @values
     end
 
+    def params
+      @params
+    end
+
     def all(db)
       db["SELECT * FROM #{@name}"].all
     end
@@ -44,10 +48,14 @@ module Condition
       db["DELETE FROM #{@name}"].delete
     end
 
-    def insert(db)
-      ds = db[@name.to_sym].prepare(:insert, :insert_with_name, @params)
+    def insert(db, default)
+      item = default.item(@name) if default
+      ds = db[@name.to_sym].prepare(
+        :insert, 
+        :insert_with_name, 
+        item ? item.params.merge(@params) : @params)
       @values.each do |it|
-        ds.call(it)
+        ds.call(item ? item.value.merge(it) : it)
       end
     end
 

@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-04-15 0.0.3
+add default to precondition
+
 2013-04-11 0.0.2
 add param, param_item
 delete pre, post, reader, table
