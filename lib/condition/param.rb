@@ -6,9 +6,14 @@ module Condition
     def initialize(path, sheet_index=0)
       blocks = read_sheet(path, sheet_index)
       @item_map = {}
+      item_list = []
       blocks.each do |rows|
         item = Condition::ParamItem.new(rows)
         @item_map[item.name] = item
+        item_list << item
+      end
+      item_list.reverse.each do |it|
+        it.apply_ref(self)
       end
     end
 
@@ -43,23 +48,18 @@ module Condition
     end
 
     def item(name)
-      @item_map[name]
+      @item_map[name.to_sym]
     end
 
-    def get(name)
-      item = @item_map[name]
+    def get(name, index=nil)
+      item = item(name)
       return nil if !item
-      item.values
-    end
-
-    def get_one(name)
-      item = @item_map[name]
-      return nil if !item
-      item.value
+      return item.values if !index
+      return item.values[index]
     end
 
     def check(name, data)
-      item = @item_map[name]
+      item = item(name)
       data.each do |line|
         item.check_line(line)
       end

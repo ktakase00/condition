@@ -23,11 +23,12 @@ describe Condition do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     item = default.item('t_user')
     ds = DB[:t_user].prepare(:insert, :insert_with_name, item.params.merge({user_id: :$user_id, user_name: :$user_name}))
-    ds.call(item.value.merge(param.get_one('ins')))
+    ds.call(item.value.merge(param.get('ins', 0)))
 
     list = DB["SELECT * FROM t_user"].all
+    #p param.get('ary')
     param.check('list', list)
-    param.check('list', [{"user_id" => 1, "user_name" => "aaax"}])
+    param.check('list', [{user_id: 1, user_name: "aaax"}])
     param.check('ary', [{name: "a", val1: {a: "b"}, val2: [{a: {c: "d"}}], val3: [], val4: nil}])
   end
 

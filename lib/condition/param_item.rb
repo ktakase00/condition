@@ -1,28 +1,50 @@
 # coding: utf-8
 require 'time'
-require 'json'
-require 'active_support/all'
 
 module Condition
   class ParamItem
     def initialize(rows)
-      @name = rows[0][0]
-      @keys = rows[0].size > 1 ? rows[0][1..rows.size - 1] : []
+      @name = rows[0][0].to_sym
+      @options = rows[0].size > 1 ? rows[0][1..rows.size - 1] : []
       body = rows[1..rows.size - 1]
       @values = []
+      @keys = []
       @params = {}
+      @refs = []
       body.each do |row|
         index = 0
-        name = row[0]
-        @params[name.to_sym] = ("$" + name).to_sym
+        key = row[0].to_sym
+        @keys = key
+        @params[key] = ("$" + key.to_s).to_sym
         items = row[1..row.size - 1]
         value = nil
         items.each do |item|
           value = @values[index] ? @values[index] : {}
-          value[name.to_sym] = '#NULL' == item ? nil : item
+          value[key] = calc_item(item, index, key)
           @values[index] = value
           index += 1
         end
+      end
+    end
+
+    def calc_item(item, index, key)
+      if '#NULL' == item
+        nil
+      elsif '#EMPTY' == item
+        []
+      elsif /^#REF\((.+)\)$/ =~ item
+        ary = $1.split(/,/)
+        count = ary.size > 1 ? ary[1].strip.to_i : nil
+        @refs << {index: index, key: key, name: ary[0].strip.to_sym, count: count}
+        item
+      else
+        item
+      end
+    end
+
+    def apply_ref(param)
+      @refs.each do |it|
+        @values[it[:index]][it[:key]] = param.get(it[:name], it[:count])
       end
     end
 
@@ -62,7 +84,7 @@ module Condition
     end
 
     def exec_after(db)
-      @keys.each do |key|
+      @options.each do |key|
         db.run key
       end
     end
@@ -71,36 +93,17 @@ module Condition
       if Time === real
         real == Time.parse(expected)
       elsif nil == real
-        expected == nil || expected == "#NULL"
+        expected == nil
       elsif Hash === real
-        ex = expected
         if !(Hash === expected)
-          ex = JSON.parse(expected)
+          false
         end
-        ex = ex.symbolize_keys
-        result = true
-        ex.each_pair do |k, v|
-          res = value_match?(v, real[k])
-          result = false if !res
-        end
-        result
+        expected == real
       elsif Array === real
-        ex = expected
         if !(Array === expected)
-          ex = JSON.parse(expected)
+          false
         end
-        false if Array === ex
-        size = ex.size()
-        true if size == 0 && real.size() == 0
-        false if size != real.size()
-        index = 0
-        while true
-          break if index >= size
-          result = value_match?(ex[index], real[index])
-          return false if !result
-          index = index + 1
-        end
-        true
+        expected == real
       else
         real.to_s == expected
       end
@@ -110,11 +113,10 @@ module Condition
       targetFlag = true
       matchFlag = true
       unmatch_info = []
-      real = real.symbolize_keys
       value.each_pair do |k, v|
         match = value_match?(v, real[k])
         unmatch_info << v.to_s + " <> " + real[k].to_s if !match
-        whereKeyFlag = nil != @keys.index(k.to_s)
+        whereKeyFlag = nil != @options.index(k.to_s)
         matchFlag = false if !match
         targetFlag = false if whereKeyFlag && !match
       end

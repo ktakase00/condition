@@ -30,6 +30,10 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-04-18 0.0.7
+delete json
+add ref param_item
+
 2013-04-17 0.0.6
 modify symbol or string
 check hash and ary
