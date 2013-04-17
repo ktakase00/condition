@@ -28,5 +28,11 @@ describe Condition do
     list = DB["SELECT * FROM t_user"].all
     param.check('list', list)
     param.check('list', [{"user_id" => 1, "user_name" => "aaax"}])
+    param.check('ary', [{name: "a", val1: {a: "b"}, val2: [{a: {c: "d"}}], val3: [], val4: nil}])
+  end
+
+  it 'unmatch' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    lambda{param.check('unmatch', [{id: 1, name: "bbb", val: 456}])}.should raise_error
   end
 end

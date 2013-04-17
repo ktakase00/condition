@@ -30,6 +30,17 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-04-17 0.0.6
+modify symbol or string
+check hash and ary
+modify check_value raise
+
+2013-04-17 0.0.5
+add pre_after exec
+
+2013-04-15 0.0.4
+add default to precondition
+
 2013-04-15 0.0.3
 add default to precondition
 

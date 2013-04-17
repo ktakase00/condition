@@ -1,5 +1,7 @@
 # coding: utf-8
 require 'time'
+require 'json'
+require 'active_support/all'
 
 module Condition
   class ParamItem
@@ -69,7 +71,36 @@ module Condition
       if Time === real
         real == Time.parse(expected)
       elsif nil == real
-        expected == nil
+        expected == nil || expected == "#NULL"
+      elsif Hash === real
+        ex = expected
+        if !(Hash === expected)
+          ex = JSON.parse(expected)
+        end
+        ex = ex.symbolize_keys
+        result = true
+        ex.each_pair do |k, v|
+          res = value_match?(v, real[k])
+          result = false if !res
+        end
+        result
+      elsif Array === real
+        ex = expected
+        if !(Array === expected)
+          ex = JSON.parse(expected)
+        end
+        false if Array === ex
+        size = ex.size()
+        true if size == 0 && real.size() == 0
+        false if size != real.size()
+        index = 0
+        while true
+          break if index >= size
+          result = value_match?(ex[index], real[index])
+          return false if !result
+          index = index + 1
+        end
+        true
       else
         real.to_s == expected
       end
@@ -78,8 +109,11 @@ module Condition
     def check_value(real, value)
       targetFlag = true
       matchFlag = true
+      unmatch_info = []
+      real = real.symbolize_keys
       value.each_pair do |k, v|
-        match = value_match?(v, nil == real[k] ? real[k.to_s] : real[k])
+        match = value_match?(v, real[k])
+        unmatch_info << v.to_s + " <> " + real[k].to_s if !match
         whereKeyFlag = nil != @keys.index(k.to_s)
         matchFlag = false if !match
         targetFlag = false if whereKeyFlag && !match
@@ -89,7 +123,7 @@ module Condition
       elsif !targetFlag
         return false
       else
-        raise "#{@name} not match " + real.to_s
+        raise "#{@name} not match " + real.to_s + "\n" + unmatch_info.join("\n")
       end
     end
 
