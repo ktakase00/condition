@@ -69,6 +69,7 @@ module Condition
       @item_map.each_value do |item|
         item.delete(db)
         item.insert(db, default)
+        item.exec_after(db)
       end
     end
 

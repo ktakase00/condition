@@ -59,6 +59,12 @@ module Condition
       end
     end
 
+    def exec_after(db)
+      @keys.each do |key|
+        db.run key
+      end
+    end
+
     def value_match?(expected, real)
       if Time === real
         real == Time.parse(expected)
