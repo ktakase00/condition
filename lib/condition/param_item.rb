@@ -79,7 +79,7 @@ module Condition
       targetFlag = true
       matchFlag = true
       value.each_pair do |k, v|
-        match = value_match?(v, real[k])
+        match = value_match?(v, nil == real[k] ? real[k.to_s] : real[k])
         whereKeyFlag = nil != @keys.index(k.to_s)
         matchFlag = false if !match
         targetFlag = false if whereKeyFlag && !match

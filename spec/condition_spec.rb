@@ -27,5 +27,6 @@ describe Condition do
 
     list = DB["SELECT * FROM t_user"].all
     param.check('list', list)
+    param.check('list', [{"user_id" => 1, "user_name" => "aaax"}])
   end
 end
