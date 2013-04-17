@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'time'
+require 'json'
 
 module Condition
   class ParamItem
@@ -37,6 +38,8 @@ module Condition
         count = ary.size > 1 ? ary[1].strip.to_i : nil
         @refs << {index: index, key: key, name: ary[0].strip.to_sym, count: count}
         item
+      elsif /^#JSON\((.+)\)$/ =~ item
+        JSON.parse($1, {:symbolize_names => true})
       else
         item
       end

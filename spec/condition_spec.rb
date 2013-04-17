@@ -26,10 +26,13 @@ describe Condition do
     ds.call(item.value.merge(param.get('ins', 0)))
 
     list = DB["SELECT * FROM t_user"].all
-    #p param.get('ary')
     param.check('list', list)
     param.check('list', [{user_id: 1, user_name: "aaax"}])
-    param.check('ary', [{name: "a", val1: {a: "b"}, val2: [{a: {c: "d"}}], val3: [], val4: nil}])
+  end
+
+  it 'ref and json' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('ary', [{name: "a", val1: {a: "b"}, val2: [{a: {c: "d"}}], val3: [], val4: nil, val5: {a: [1, 2, 3]}}])
   end
 
   it 'unmatch' do

@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pg"
   spec.add_dependency "roo"
   spec.add_dependency "sequel"
+  spec.add_dependency "json"
 end
