@@ -100,13 +100,37 @@ module Condition
       elsif Hash === real
         if !(Hash === expected)
           false
+        elsif real == expected
+          true
+        else
+          result = true
+          expected.each_pair do |k, v|
+            res = value_match?(v, real[k])
+            result = false if !res
+          end
+          result
         end
-        expected == real
       elsif Array === real
         if !(Array === expected)
           false
+        elsif real.size() == 0 && expected.size() == 0
+          true
+        elsif real == expected
+          true
+        else
+          index = 0
+          result = true
+          while true
+            break if index >= expected.size
+            res = value_match?(expected[index], real[index])
+            if !res
+              result = false
+              break
+            end
+            index += 1
+          end
+          result
         end
-        expected == real
       else
         real.to_s == expected
       end

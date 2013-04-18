@@ -32,7 +32,7 @@ describe Condition do
 
   it 'ref and json' do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
-    param.check('ary', [{name: "a", val1: {a: "b"}, val2: [{a: {c: "d"}}], val3: [], val4: nil, val5: {a: [1, 2, 3]}}])
+    param.check('ary', [{name: "a", val1: {a: "b", t: true, f: false}, val2: [{a: {c: "d"}}], val3: [], val4: nil, val5: {a: [1, 2, 3]}, val6: true, val7: false}])
   end
 
   it 'unmatch' do
