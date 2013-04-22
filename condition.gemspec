@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "pg"
   spec.add_development_dependency "sequel"
+  spec.add_development_dependency "mongo"
+  spec.add_development_dependency "bson_ext"
   spec.add_dependency "roo"
   spec.add_dependency "json"
 end

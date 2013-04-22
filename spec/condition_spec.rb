@@ -41,4 +41,13 @@ describe Condition do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     lambda{param.check('unmatch', [{id: 1, name: "bbb", val: 456}])}.should raise_error
   end
+
+  it 'mongo' do
+    storage = Condition::Storage::Mongo.new(MONGO)
+    param = Condition::Param.new(FILES + '/mongo.ods')
+    default = Condition::Param.new(FILES + '/mongo.ods', 2)
+    param.pre(storage, default)
+    param = Condition::Param.new(FILES + '/t_user.ods', 1)
+    param.post(storage)
+  end
 end

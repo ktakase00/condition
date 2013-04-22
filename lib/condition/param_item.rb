@@ -31,6 +31,10 @@ module Condition
     def calc_item(item, index, key)
       if '#NULL' == item
         nil
+      elsif '#TRUE' == item
+        true
+      elsif '#FALSE' == item
+        false
       elsif '#EMPTY' == item
         []
       elsif /^#REF\((.+)\)$/ =~ item
@@ -40,6 +44,10 @@ module Condition
         item
       elsif /^#JSON\((.+)\)$/ =~ item
         JSON.parse($1, {:symbolize_names => true})
+      elsif /^#TIME\((.+)\)$/ =~ item
+        Time.parse($1)
+      elsif /^#INT\((.+)\)$/ =~ item
+        $1.to_i
       else
         item
       end
