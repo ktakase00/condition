@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-04-23 0.0.10
+separate storage, param_item
+
 2013-04-18 0.0.9
 deep value_match?
 

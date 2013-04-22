@@ -3,6 +3,8 @@
 require 'bundler/setup'
 require 'condition'
 require 'sequel'
+require 'pg'
+require 'condition/storage/db'
 
 FILES = File.dirname(__FILE__) + "/files"
 DB = Sequel.connect('postgres://localhost:5432/test?user=aoyagikouhei')

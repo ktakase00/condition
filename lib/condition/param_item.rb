@@ -67,29 +67,8 @@ module Condition
       @params
     end
 
-    def all(db)
-      db["SELECT * FROM #{@name}"].all
-    end
-
-    def delete(db)
-      db["DELETE FROM #{@name}"].delete
-    end
-
-    def insert(db, default)
-      item = default.item(@name) if default
-      ds = db[@name.to_sym].prepare(
-        :insert, 
-        :insert_with_name, 
-        item ? item.params.merge(@params) : @params)
-      @values.each do |it|
-        ds.call(item ? item.value.merge(it) : it)
-      end
-    end
-
-    def exec_after(db)
-      @options.each do |key|
-        db.run key
-      end
+    def options
+      @options
     end
 
     def value_match?(expected, real)

@@ -65,17 +65,17 @@ module Condition
       end
     end
 
-    def pre(db, default=nil)
+    def pre(storage, default=nil)
       @item_map.each_value do |item|
-        item.delete(db)
-        item.insert(db, default)
-        item.exec_after(db)
+        storage.delete(item)
+        storage.insert(item, default)
+        storage.exec_after(item)
       end
     end
 
-    def post(db)
+    def post(storage)
       @item_map.each_value do |item|
-        list = item.all(db)
+        list = storage.all(item)
         list.each do |line|
           item.check_line(line)
         end

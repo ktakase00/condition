@@ -8,17 +8,19 @@ describe Condition do
   end
   
   it 'pre and post' do
+    storage = Condition::Storage::Db.new(DB)
     param = Condition::Param.new(FILES + '/t_user.ods')
     default = Condition::Param.new(FILES + '/t_user.ods', 3)
-    param.pre(DB, default)
+    param.pre(storage, default)
     param = Condition::Param.new(FILES + '/t_user.ods', 1)
-    param.post(DB)
+    param.post(storage)
   end
 
   it 'pre and params' do
+    storage = Condition::Storage::Db.new(DB)
     param = Condition::Param.new(FILES + '/t_user.ods')
     default = Condition::Param.new(FILES + '/t_user.ods', 3)
-    param.pre(DB, default)
+    param.pre(storage, default)
 
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     item = default.item('t_user')
