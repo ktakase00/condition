@@ -36,7 +36,7 @@ module Condition
       elsif '#FALSE' == item
         false
       elsif '#EMPTY' == item
-        []
+        ''
       elsif /^#REF\((.+)\)$/ =~ item
         ary = $1.split(/,/)
         count = ary.size > 1 ? ary[1].strip.to_i : nil
