@@ -80,7 +80,9 @@ module Condition
     end
 
     def value_match?(expected, real)
-      if Time === real
+      if expected == nil && real != nil || expected != nil && real == nil
+        false
+      elsif Time === real
         real == Time.parse(expected)
       elsif nil == real
         expected == nil

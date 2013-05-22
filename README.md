@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-05-22 0.0.13
+modify bug expected is null
+
 2013-04-26 0.0.12
 modify #EMPTY from [] to ''
 alternate #JSON([])
