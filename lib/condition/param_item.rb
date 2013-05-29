@@ -95,7 +95,10 @@ module Condition
           result = true
           expected.each_pair do |k, v|
             res = value_match?(v, real[k])
-            result = false if !res
+            if !res
+              @unmatch_info << v.to_s + " <> " + real[k].to_s
+              result = false
+            end
           end
           result
         end
@@ -113,6 +116,7 @@ module Condition
             break if index >= expected.size
             res = value_match?(expected[index], real[index])
             if !res
+              @unmatch_info << expected[index].to_s + " <> " + real[index].to_s
               result = false
               break
             end
@@ -128,10 +132,10 @@ module Condition
     def check_value(real, value)
       targetFlag = true
       matchFlag = true
-      unmatch_info = []
+      @unmatch_info = []
       value.each_pair do |k, v|
         match = value_match?(v, real[k])
-        unmatch_info << v.to_s + " <> " + real[k].to_s if !match
+        @unmatch_info << v.to_s + " <> " + real[k].to_s if !match
         whereKeyFlag = nil != @options.index(k.to_s)
         matchFlag = false if !match
         targetFlag = false if whereKeyFlag && !match
@@ -141,7 +145,7 @@ module Condition
       elsif !targetFlag
         return false
       else
-        raise "#{@name} not match " + real.to_s + "\n" + unmatch_info.join("\n")
+        raise "#{@name} not match " + real.to_s + "\n" + @unmatch_info.join("\n")
       end
     end
 
