@@ -1,10 +1,20 @@
 # coding: utf-8
-require 'roo'
 
 module Condition
   class Param
+    def self.set_reader(reader)
+      @@reader = reader
+    end
+    
+    def self.get_reader()
+      if @@reader.nil?
+        @@reader = Condition::Reader::RooReader.new
+      end
+      @@reader
+    end
+
     def initialize(path, sheet_index=0)
-      blocks = read_sheet(path, sheet_index)
+      blocks = Condition::Param.get_reader().read_sheet(path, sheet_index)
       @item_map = {}
       item_list = []
       blocks.each do |rows|
@@ -14,36 +24,6 @@ module Condition
       end
       item_list.reverse.each do |it|
         it.apply_ref(self)
-      end
-    end
-
-    def read_sheet(path, sheet_index)
-      ss =  Roo::Spreadsheet.open(path)
-      ss.default_sheet = ss.sheets[sheet_index]
-      row_index = 1
-      res = []
-      while true
-        break if nil == ss.cell(row_index, 1)
-        table = []
-        while true
-          row = read_row(ss, row_index)
-          row_index += 1
-          break if 0 == row.size
-          table << row
-        end
-        res << table
-      end
-      res
-    end
-
-    def read_row(ss, row_index)
-      column_index = 1
-      result = []
-      while true
-        value = ss.cell(row_index, column_index)
-        return result if nil == value
-        result << value
-        column_index += 1
       end
     end
 
