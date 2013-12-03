@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'reader/roo_reader'
+require './reader/roo_reader'
 
 module Condition
   class Param
