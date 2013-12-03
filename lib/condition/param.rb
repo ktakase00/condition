@@ -2,6 +2,8 @@
 
 module Condition
   class Param
+    @@reader = nil
+
     def self.set_reader(reader)
       @@reader = reader
     end
