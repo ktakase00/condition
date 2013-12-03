@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-03 0.0.15
+add present and regexp check
+
 2013-05-22 0.0.14
 modify view not match
 
