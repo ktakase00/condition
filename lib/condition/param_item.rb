@@ -48,7 +48,7 @@ module Condition
         Time.parse($1)
       elsif /^#INT\((.+)\)$/ =~ item
         $1.to_i
-      elsif /^#RE\((.+)\)$/ =~ item
+      elsif /^#REGEXP\((.+)\)$/ =~ item
         Regexp.new($1)
       else
         item

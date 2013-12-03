@@ -34,12 +34,25 @@ describe Condition do
 
   it 'ref and json' do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
-    param.check('ary', [{name: "a", val1: {a: "b", t: true, f: false}, val2: [{a: {c: "d"}}], val3: [], val4: nil, val5: {a: [1, 2, 3]}, val6: true, val7: false, val8: '', val9: 'a', val10: 'abbbbc'}])
+    param.check('ary', [{name: "a", val1: {a: "b", t: true, f: false}, val2: [{a: {c: "d"}}], val3: [], val4: nil, val5: {a: [1, 2, 3]}, val6: true, val7: false, val8: ''}])
   end
 
   it 'unmatch' do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     lambda{param.check('unmatch', [{id: 1, name: "bbb", val: 456}])}.should raise_error
+  end
+
+  it 'present' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('present', [{val1: "a"}])
+    lambda{param.check('present', [{val1: ""}])}.should raise_error
+    lambda{param.check('present', [{val1: nil}])}.should raise_error
+  end
+
+  it 'regex' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('regex', [{val1: "abbbbbc"}])
+    lambda{param.check('regex', [{val1: "ac"}])}.should raise_error
   end
 
   it 'mongo' do
