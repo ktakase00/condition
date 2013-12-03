@@ -48,6 +48,8 @@ module Condition
         Time.parse($1)
       elsif /^#INT\((.+)\)$/ =~ item
         $1.to_i
+      elsif /^#RE\((.+)\)$/ =~ item
+        Regexp.new($1)
       else
         item
       end
@@ -80,8 +82,12 @@ module Condition
     end
 
     def value_match?(expected, real)
-      if expected == nil && real != nil || expected != nil && real == nil
+      if "#PRESENT" == expected
+        (!real.nil?) && ("" != real.to_s)
+      elsif expected == nil && real != nil || expected != nil && real == nil
         false
+      elsif Regexp === expected
+        expected =~ real.to_s
       elsif Time === real
         real == Time.parse(expected)
       elsif nil == real
