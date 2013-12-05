@@ -6,7 +6,7 @@ describe Condition do
     DB << "CREATE TABLE t_user(user_id BIGINT, user_name TEXT, login_ts TIMESTAMPTZ NOT NULL)"
     DB << "CREATE TABLE t_test(id BIGINT, name TEXT, flag BOOLEAN, ts TIMESTAMPTZ, iary BIGINT[], tary TEXT[], test_name TEXT NOT NULL)"
   end
-  
+
   it 'pre and post' do
     storage = Condition::Storage::Db.new(DB)
     param = Condition::Param.new(FILES + '/t_user.ods')
@@ -14,6 +14,10 @@ describe Condition do
     param.pre(storage, default)
     param = Condition::Param.new(FILES + '/t_user.ods', 1)
     param.post(storage)
+    param = Condition::Param.new(FILES + '/t_user.ods', 4)
+    expect { param.post(storage) }.to raise_error
+    param = Condition::Param.new(FILES + '/t_user.ods', 5)
+    expect { param.post(storage) }.to raise_error
   end
 
   it 'pre and params' do
@@ -60,7 +64,7 @@ describe Condition do
     param = Condition::Param.new(FILES + '/mongo.ods')
     default = Condition::Param.new(FILES + '/mongo.ods', 2)
     param.pre(storage, default)
-    param = Condition::Param.new(FILES + '/t_user.ods', 1)
+    param = Condition::Param.new(FILES + '/mongo.ods', 1)
     param.post(storage)
   end
 end

@@ -56,10 +56,12 @@ module Condition
 
     def post(storage)
       @item_map.each_value do |item|
+        item.clear_used_values
         list = storage.all(item)
         list.each do |line|
           item.check_line(line)
         end
+        raise "#{item.name} not exists row" if item.is_remain_value
       end
     end
   end

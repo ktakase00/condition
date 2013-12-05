@@ -8,7 +8,16 @@ module Condition
       end
 
       def all(param_item)
-        @db[param_item.name].find()
+        list = @db[param_item.name].find()
+        res = []
+        list.each do |row|
+          hash = {}
+          row.each do |k, v|
+            hash[k.to_sym] = v
+          end
+          res << hash
+        end
+        res
       end
 
       def delete(param_item)

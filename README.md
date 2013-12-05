@@ -30,6 +30,10 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-06 0.0.16
+modify mongo key to symbol
+modify check no used line in expectations
+
 2013-12-03 0.0.15
 add present and regexp check
 

@@ -12,6 +12,7 @@ module Condition
       @keys = []
       @params = {}
       @refs = []
+      @used_values = []
       body.each do |row|
         index = 0
         key = row[0].to_sym
@@ -26,6 +27,14 @@ module Condition
           index += 1
         end
       end
+    end
+
+    def clear_used_values
+      @used_values = []
+    end
+
+    def is_remain_value
+      @values.size > @used_values.size
     end
 
     def calc_item(item, index, key)
@@ -147,6 +156,7 @@ module Condition
         targetFlag = false if whereKeyFlag && !match
       end
       if targetFlag && matchFlag
+        @used_values << value
         return true
       elsif !targetFlag
         return false
