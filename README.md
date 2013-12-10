@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-11 0.0.17
+add redis reader
+
 2013-12-06 0.0.16
 modify mongo key to symbol
 modify check no used line in expectations

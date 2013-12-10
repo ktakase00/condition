@@ -14,8 +14,17 @@ module Condition
       @@reader
     end
 
-    def initialize(path, sheet_index=0)
-      blocks = Condition::Param.get_reader().read_sheet(path, sheet_index)
+    def initialize(path, sheet_index=0, blks: nil, reader: nil)
+      if blks.nil?
+        rd = reader.nil? ? Condition::Param.get_reader() : reader
+        blocks = rd.read_sheet(path, sheet_index)
+        set_blocks(blocks)
+      else
+        set_blocks(blks)
+      end
+    end
+
+    def set_blocks(blocks)
       @item_map = {}
       item_list = []
       blocks.each do |rows|
