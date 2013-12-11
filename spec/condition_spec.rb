@@ -109,4 +109,13 @@ describe Condition do
     param = Condition::Param.new(FILES + '/t_user.ods', 5)
     expect { param.post(storage) }.to raise_error
   end
+
+  it 'eval' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('eval', [{
+      val1: Time.now.hour,
+      val2: "ab",
+      val3: 3,
+    }])
+  end
 end

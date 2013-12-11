@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-12 0.0.18
+add eval check
+
 2013-12-11 0.0.17
 add redis reader
 

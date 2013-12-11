@@ -59,6 +59,8 @@ module Condition
         $1.to_i
       elsif /^#REGEXP\((.+)\)$/ =~ item
         Regexp.new($1)
+      elsif /^#EVAL\((.+)\)$/ =~ item
+        eval($1)
       else
         item
       end
@@ -139,6 +141,8 @@ module Condition
           end
           result
         end
+      elsif Integer === expected
+        real.to_i == expected
       else
         real.to_s == expected
       end
