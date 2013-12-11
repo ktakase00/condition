@@ -7,12 +7,8 @@ describe Condition do
     DB << "CREATE TABLE t_test(id BIGINT, name TEXT, flag BOOLEAN, ts TIMESTAMPTZ, iary BIGINT[], tary TEXT[], test_name TEXT NOT NULL)"
 
     converter = Condition::Reader::ConvertSheet.new(REDIS)
-    converter.convert(FILES + '/t_user.ods', 0, 'pre_condition')
-    converter.convert(FILES + '/t_user.ods', 1, 'post_condition1')
-    converter.convert(FILES + '/t_user.ods', 2, 'params')
-    converter.convert(FILES + '/t_user.ods', 3, 'default')
-    converter.convert(FILES + '/t_user.ods', 4, 'post_condition2')
-    converter.convert(FILES + '/t_user.ods', 5, 'post_condition3')
+    converter.convert_dir(FILES, with_dir_name: false)
+    converter.convert_dir(FILES)
   end
 
   it 'pre and post' do
@@ -80,14 +76,14 @@ describe Condition do
     reader = Condition::Reader::RedisReader.new(REDIS)
     Condition::Param.set_reader(reader)
     storage = Condition::Storage::Db.new(DB)
-    param = Condition::Param.new('pre_condition')
-    default = Condition::Param.new('default')
+    param = Condition::Param.new('t_user_pre')
+    default = Condition::Param.new('t_user_default')
     param.pre(storage, default)
-    param = Condition::Param.new('post_condition1')
+    param = Condition::Param.new('t_user_post')
     param.post(storage)
-    param = Condition::Param.new('post_condition2')
+    param = Condition::Param.new('t_user_post2')
     expect { param.post(storage) }.to raise_error
-    param = Condition::Param.new('post_condition3')
+    param = Condition::Param.new('t_user_post3')
     expect { param.post(storage) }.to raise_error
   end
 
@@ -96,17 +92,14 @@ describe Condition do
     Condition::Param.set_reader(nil)
 
     storage = Condition::Storage::Db.new(DB)
-    param = Condition::Param.new('pre_condition', reader: reader)
-    default = Condition::Param.new('default', reader: reader)
+    param = Condition::Param.new('files_t_user_pre', reader: reader)
+    default = Condition::Param.new('files_t_user_default', reader: reader)
     param.pre(storage, default)
-    param = Condition::Param.new('post_condition1', reader: reader)
+    param = Condition::Param.new('files_t_user_post', reader: reader)
     param.post(storage)
-    param = Condition::Param.new('post_condition2', reader: reader)
+    param = Condition::Param.new('files_t_user_post2', reader: reader)
     expect { param.post(storage) }.to raise_error
-    param = Condition::Param.new('post_condition3', reader: reader)
-    expect { param.post(storage) }.to raise_error
-
-    param = Condition::Param.new(FILES + '/t_user.ods', 5)
+    param = Condition::Param.new('files_t_user_post3', reader: reader)
     expect { param.post(storage) }.to raise_error
   end
 

@@ -7,6 +7,10 @@ module Condition
       def read_sheet(path, sheet_index)
         ss =  Roo::Spreadsheet.open(path)
         ss.default_sheet = ss.sheets[sheet_index]
+        read(ss)
+      end
+
+      def read(ss)
         row_index = 1
         res = []
         while true

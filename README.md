@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-12 0.0.19
+add convert file to redis
+
 2013-12-12 0.0.18
 add eval check
 
