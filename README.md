@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-13 0.0.20
+check redis key not found
+
 2013-12-12 0.0.19
 add convert file to redis
 

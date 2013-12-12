@@ -111,4 +111,10 @@ describe Condition do
       val3: 3,
     }])
   end
+
+  it 'redis read error' do
+    reader = Condition::Reader::RedisReader.new(REDIS)
+    Condition::Param.set_reader(nil)
+    expect { Condition::Param.new('files_aaa', reader: reader) }.to raise_error("redis key name files_aaa not found")
+  end
 end

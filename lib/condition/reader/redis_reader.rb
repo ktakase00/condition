@@ -9,7 +9,9 @@ module Condition
       end
 
       def read_sheet(path, sheet_index)
-        JSON.parse(@redis.get(path), {:symbolize_names => true})
+        data = @redis.get(path)
+        raise "redis key name #{path} not found" if data.nil? || data == ""
+        JSON.parse(data, {:symbolize_names => true})
       end
     end
   end
