@@ -30,6 +30,10 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-13 0.0.21
+bugfix options array
+bugfix check_line over or lack
+
 2013-12-13 0.0.20
 check redis key not found
 

@@ -50,9 +50,11 @@ module Condition
 
     def check(name, data)
       item = item(name)
+      item.clear_used_values
       data.each do |line|
         item.check_line(line)
       end
+      raise "#{item.name} not exists row" if item.is_remain_value
     end
 
     def pre(storage, default=nil)

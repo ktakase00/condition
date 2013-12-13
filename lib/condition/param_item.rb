@@ -6,7 +6,7 @@ module Condition
   class ParamItem
     def initialize(rows)
       @name = rows[0][0].to_sym
-      @options = rows[0].size > 1 ? rows[0][1..rows.size - 1] : []
+      @options = rows[0].size > 1 ? rows[0][1..rows[0].size - 1] : []
       body = rows[1..rows.size - 1]
       @values = []
       @keys = []

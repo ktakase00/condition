@@ -35,9 +35,14 @@ describe Condition do
     ds = DB[:t_user].prepare(:insert, :insert_with_name, item.params.merge({user_id: :$user_id, user_name: :$user_name}))
     ds.call(item.value.merge(param.get('ins', 0)))
 
-    list = DB["SELECT * FROM t_user"].all
+    list = DB["SELECT * FROM t_user order by user_id"].all
     param.check('list', list)
-    param.check('list', [{user_id: 1, user_name: "aaax"}])
+    param.check('list', [
+      {user_id: 1, user_name: "aaax"},
+      {user_id: 2, user_name: "bbbx"},
+      {user_id: 3, user_name: "cccx"},
+      {user_id: 4, user_name: "ddd"},
+    ])
   end
 
   it 'ref and json' do
@@ -117,4 +122,24 @@ describe Condition do
     Condition::Param.set_reader(nil)
     expect { Condition::Param.new('files_aaa', reader: reader) }.to raise_error("redis key name files_aaa not found")
   end
+
+  it 'output count' do
+    reader = Condition::Reader::RedisReader.new(REDIS)
+    Condition::Param.set_reader(nil)
+    param = Condition::Param.new('files_t_user_params', reader: reader)
+
+    param.check('output_count', [{l: [{id: "1"}, {id: "2"}, {id: "3"}]}])
+    expect { param.check('output_count', [{id: "1"}, {id: "2"}]) }.to raise_error
+    expect { param.check('output_count', [{id: "1"}, {id: "2"}, {id: "3"}, {id: "4"}]) }.to raise_error
+  end
+
+  it 'options count' do
+    reader = Condition::Reader::RedisReader.new(REDIS)
+    Condition::Param.set_reader(nil)
+    param = Condition::Param.new('files_t_user_params', reader: reader)
+
+    item = param.item('options')
+    expect(item.options.length).to eq(4)
+  end
+
 end
