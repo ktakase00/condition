@@ -26,10 +26,13 @@ module Condition
         end
       end
 
-      def convert_dir(path, with_dir_name: true)
+      def convert_dir(path, with_dir_name: true, file_name: nil)
         basename = File.basename(path)
         Dir::entries(path).each do |f|
           next if "." == f || ".." == f || /^\.~lock\.[^.]+\.ods.$/ =~ f
+          if !file_name.nil?
+            next if f != file_name
+          end
           prefix = with_dir_name ? basename : nil
           convert_file("#{path}/#{f}", prefix: prefix)
         end

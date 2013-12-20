@@ -142,4 +142,13 @@ describe Condition do
     expect(item.options.length).to eq(4)
   end
 
+  it 'read sheet file' do
+    REDIS.del("files2_param1_params")
+    REDIS.del("files2_param2_params")
+    converter = Condition::Reader::ConvertSheet.new(REDIS)
+    converter.convert_dir(FILES2, file_name: 'param1.ods')
+    expect(REDIS.get("files2_param1_params")).not_to be_nil
+    expect(REDIS.get("files2_param2_params")).to be_nil
+  end
+
 end

@@ -12,6 +12,7 @@ require 'condition/reader/redis_reader'
 require 'condition/reader/convert_sheet'
 
 FILES = File.dirname(__FILE__) + "/files"
+FILES2 = File.dirname(__FILE__) + "/files2"
 DB = Sequel.connect('postgres://localhost:5432/test?user=aoyagikouhei')
 MONGO = Mongo::MongoClient.new('localhost', 27017)['test']
 REDIS = Redis.new

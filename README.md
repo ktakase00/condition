@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-20 0.0.22
+add redis dir read specific file
+
 2013-12-13 0.0.21
 bugfix options array
 bugfix check_line over or lack
