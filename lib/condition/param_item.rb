@@ -143,8 +143,10 @@ module Condition
         end
       elsif Integer === expected
         real.to_i == expected
+      elsif Array === expected && real.respond_to?("to_a")
+        real.to_a == expected
       else
-        real.to_s == expected
+        real.to_s == expected.to_s
       end
     end
 

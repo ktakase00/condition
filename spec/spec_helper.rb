@@ -10,6 +10,7 @@ require 'condition/storage/mongo'
 require 'redis'
 require 'condition/reader/redis_reader'
 require 'condition/reader/convert_sheet'
+require "sequel/extensions/pg_array"
 
 FILES = File.dirname(__FILE__) + "/files"
 FILES2 = File.dirname(__FILE__) + "/files2"

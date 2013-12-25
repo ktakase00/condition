@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2013-12-25 0.0.23
+support sequel pg_array
+
 2013-12-20 0.0.22
 add redis dir read specific file
 
