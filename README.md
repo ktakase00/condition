@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2014-01-08 0.0.24
+add now() and now(diff seconds)
+
 2013-12-25 0.0.23
 support sequel pg_array
 

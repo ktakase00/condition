@@ -46,6 +46,10 @@ module Condition
         false
       elsif '#EMPTY' == item
         ''
+      elsif '#NOW' == item
+        Time.now
+      elsif /^#NOW\((.+)\)$/ =~ item
+        Time.now + ($1.to_i)
       elsif /^#REF\((.+)\)$/ =~ item
         ary = $1.split(/,/)
         count = ary.size > 1 ? ary[1].strip.to_i : nil

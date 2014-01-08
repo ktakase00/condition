@@ -62,6 +62,15 @@ describe Condition do
     lambda{param.check('present', [{val1: nil}])}.should raise_error
   end
 
+  it 'now' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    t = Time.now
+    t2 = Time.now - 24 * 3600
+    val = param.get('now')
+    expect(val[0][:val1].strftime("%Y%m%d")).to eq(t.strftime("%Y%m%d"))
+    expect(val[0][:val2].strftime("%Y%m%d")).to eq(t2.strftime("%Y%m%d"))
+  end
+
   it 'regex' do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     param.check('regex', [{val1: "abbbbbc"}])
