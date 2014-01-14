@@ -17,12 +17,25 @@ module Condition
 
       def insert(param_item, default)
         default_item = default.item(param_item.name) if default
-        ds = @db[param_item.name.to_sym].prepare(
-          :insert, 
-          :insert_with_name, 
-          default_item ? default_item.params.merge(param_item.params) : param_item.params)
+        prms = default_item ? default_item.params.merge(param_item.params) : param_item.params
+        i1 = ''
+        i2 = ''
+        prms.each_pair do |k, v|
+          if i1 != ''
+            i1 = i1 + ', '
+            i2 = i2 + ', '
+          end
+          i1 = i1 + k.to_s
+          i2 = i2 + '?'
+        end
+        sql = "INSERT INTO #{param_item.name.to_s} (#{i1}) VALUES (#{i2})"
         param_item.values.each do |it|
-          ds.call(default_item ? default_item.value.merge(it) : it)
+          prms = default_item ? default_item.value.merge(it) : it
+          ary = [sql]
+          prms.each_pair do |k, v|
+            ary << v
+          end
+          @db.fetch(*ary).insert
         end
       end
 

@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2014-01-15 0.0.25
+support schema name in pre condition
+
 2014-01-08 0.0.24
 add now() and now(diff seconds)
 

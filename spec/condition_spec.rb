@@ -5,6 +5,9 @@ describe Condition do
     DB << "DROP TABLE IF EXISTS t_test"
     DB << "CREATE TABLE t_user(user_id BIGINT, user_name TEXT, login_ts TIMESTAMPTZ NOT NULL)"
     DB << "CREATE TABLE t_test(id BIGINT, name TEXT, flag BOOLEAN, ts TIMESTAMPTZ, iary BIGINT[], tary TEXT[], test_name TEXT NOT NULL)"
+    DB << "CREATE SCHEMA IF NOT EXISTS history"
+    DB << "DROP TABLE IF EXISTS history.t_user"
+    DB << "CREATE TABLE history.t_user(user_id BIGINT, user_name TEXT, login_ts TIMESTAMPTZ NOT NULL)"
 
     converter = Condition::Reader::ConvertSheet.new(REDIS)
     converter.convert_dir(FILES, with_dir_name: false)
