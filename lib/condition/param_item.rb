@@ -117,7 +117,7 @@ module Condition
           expected.each_pair do |k, v|
             res = value_match?(v, real[k])
             if !res
-              @unmatch_info << v.to_s + " <> " + real[k].to_s
+              @unmatch_info << "key=#{k.to_s} #{v.to_s} <> #{real[k].to_s}"
               result = false
             end
           end
@@ -125,11 +125,15 @@ module Condition
         end
       elsif Array === real
         if !(Array === expected)
+          @unmatch_info << "real is Array and expected is not Array"
           false
         elsif real.size() == 0 && expected.size() == 0
           true
         elsif real == expected
           true
+        elsif real.size() != expected.size()
+          @unmatch_info << "real array size=#{real.size().to_s} <> expected size=#{expected.size().to_s}"
+          false
         else
           index = 0
           result = true

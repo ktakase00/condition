@@ -141,8 +141,8 @@ describe Condition do
     param = Condition::Param.new('files_t_user_params', reader: reader)
 
     param.check('output_count', [{l: [{id: "1"}, {id: "2"}, {id: "3"}]}])
-    expect { param.check('output_count', [{id: "1"}, {id: "2"}]) }.to raise_error
-    expect { param.check('output_count', [{id: "1"}, {id: "2"}, {id: "3"}, {id: "4"}]) }.to raise_error
+    expect { param.check('output_count', [{l: [{id: "1"}, {id: "2"}]}]) }.to raise_error
+    expect { param.check('output_count', [{l: [{id: "1"}, {id: "2"}, {id: "3"}, {id: "4"}]}]) }.to raise_error
   end
 
   it 'options count' do
