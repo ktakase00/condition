@@ -30,6 +30,11 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2014-01-30 0.0.27
+check param.check name not found
+view expected <> real
+view post condition column name in error
+
 2014-01-23 0.0.26
 modify bug array size check
 view unmatch hash key

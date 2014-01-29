@@ -50,6 +50,7 @@ module Condition
 
     def check(name, data)
       item = item(name)
+      raise "#{name} not found in param" if item.nil?
       item.clear_used_values
       data.each do |line|
         item.check_line(line)

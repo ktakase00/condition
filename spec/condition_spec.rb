@@ -25,6 +25,8 @@ describe Condition do
     expect { param.post(storage) }.to raise_error
     param = Condition::Param.new(FILES + '/t_user.ods', 5)
     expect { param.post(storage) }.to raise_error
+    param = Condition::Param.new(FILES + '/t_user.ods', 6)
+    expect { param.post(storage) }.to raise_error
   end
 
   it 'pre and params' do
@@ -161,6 +163,11 @@ describe Condition do
     converter.convert_dir(FILES2, file_name: 'param1.ods')
     expect(REDIS.get("files2_param1_params")).not_to be_nil
     expect(REDIS.get("files2_param2_params")).to be_nil
+  end
+
+  it 'name not found' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    expect { param.check('notexistsname', [{}]) }.to raise_error("notexistsname not found in param")
   end
 
 end
