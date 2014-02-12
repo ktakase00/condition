@@ -1,12 +1,12 @@
 require 'spec_helper'
 describe Condition do
   before(:all) do
-    DB << "DROP TABLE IF EXISTS t_user"
-    DB << "DROP TABLE IF EXISTS t_test"
+    DB << "DROP TABLE IF EXISTS t_user CASCADE"
+    DB << "DROP TABLE IF EXISTS t_test CASCADE"
     DB << "CREATE TABLE t_user(user_id BIGINT, user_name TEXT, login_ts TIMESTAMPTZ NOT NULL)"
     DB << "CREATE TABLE t_test(id BIGINT, name TEXT, flag BOOLEAN, ts TIMESTAMPTZ, iary BIGINT[], tary TEXT[], test_name TEXT NOT NULL)"
     DB << "CREATE SCHEMA IF NOT EXISTS history"
-    DB << "DROP TABLE IF EXISTS history.t_user"
+    DB << "DROP TABLE IF EXISTS history.t_user CASCADE"
     DB << "CREATE TABLE history.t_user(user_id BIGINT, user_name TEXT, login_ts TIMESTAMPTZ NOT NULL)"
 
     converter = Condition::Reader::ConvertSheet.new(REDIS)
@@ -168,6 +168,22 @@ describe Condition do
   it 'name not found' do
     param = Condition::Param.new(FILES + '/t_user.ods', 2)
     expect { param.check('notexistsname', [{}]) }.to raise_error("notexistsname not found in param")
+  end
+
+  it 'many options' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('output_options', [
+      {val1: "2", val2: "2", val3: "z"},
+      {val1: "1", val2: "1", val3: "w"},
+      {val1: "1", val2: "2", val3: "x"},
+      {val1: "2", val2: "1", val3: "y"},
+    ]) 
+    param.check('output_options2', [
+      {val1: "1", val2: "2", val3: "z"},
+      {val1: "1", val2: "2", val3: "w"},
+      {val1: "1", val2: "2", val3: "x"},
+      {val1: "1", val2: "2", val3: "y"},
+    ])
   end
 
 end
