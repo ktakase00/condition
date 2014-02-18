@@ -194,6 +194,15 @@ describe Condition do
       {val1: "1", val2: "2"},
       {val1: "1", val2: "1"},
     ]) 
+
+    expect do
+      param.check('output_order', [
+      {val1: "1", val2: "4"},
+      {val1: "1", val2: "2"},
+      {val1: "1", val2: "3"},
+      {val1: "1", val2: "1"},
+    ])
+    end.to raise_error
   end
 
 end
