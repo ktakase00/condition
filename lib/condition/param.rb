@@ -52,8 +52,10 @@ module Condition
       item = item(name)
       raise "#{name} not found in param" if item.nil?
       item.clear_used_values
+      index = 0
       data.each do |line|
-        item.check_line(line)
+        item.check_line(line, index)
+        index += 1
       end
       raise "#{item.name} not exists row" if item.is_remain_value
     end
@@ -70,8 +72,10 @@ module Condition
       @item_map.each_value do |item|
         item.clear_used_values
         list = storage.all(item)
+        index = 0
         list.each do |line|
-          item.check_line(line)
+          item.check_line(line, index)
+          index += 1
         end
         raise "#{item.name} not exists row" if item.is_remain_value
       end

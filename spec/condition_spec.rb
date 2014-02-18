@@ -186,4 +186,14 @@ describe Condition do
     ])
   end
 
+  it 'output order' do
+    param = Condition::Param.new(FILES + '/t_user.ods', 2)
+    param.check('output_order', [
+      {val1: "1", val2: "4"},
+      {val1: "1", val2: "3"},
+      {val1: "1", val2: "2"},
+      {val1: "1", val2: "1"},
+    ]) 
+  end
+
 end

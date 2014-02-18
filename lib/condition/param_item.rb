@@ -158,8 +158,7 @@ module Condition
       end
     end
 
-    def check_value(real, value)
-      targetFlag = true
+    def check_value(real, value, targetFlag)
       matchFlag = true
       @unmatch_info = []
       value.each_pair do |k, v|
@@ -179,9 +178,12 @@ module Condition
       end
     end
 
-    def check_line(real)
+    def check_line(real, index)
+      value_index = 0
       @values.each do |value|
-        return if check_value(real, value)
+        targetFlag = @options.empty? ? value_index == index : true
+        return if check_value(real, value, targetFlag)
+        value_index += 1
       end
       raise "#{@name} not found " + real.to_s
     end
