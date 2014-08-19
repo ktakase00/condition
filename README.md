@@ -30,6 +30,9 @@ TODO: Write usage instructions here
 
 ## Changes
 
+2014-08-19 0.0.29
+add activerecord storage
+
 2014-02-19 0.0.28
 modify bug order check in no options
 
