@@ -1,0 +1,11 @@
+class CreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.bigint, :user_id
+      t.text, :user_name
+      t.timestamp :login_ts
+
+      t.timestamps null: false
+    end
+  end
+end

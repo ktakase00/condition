@@ -1,0 +1,1 @@
+createdb -U condition -h localhost -E utf-8 -l ja_JP.UTF-8 -T template0 condition_test

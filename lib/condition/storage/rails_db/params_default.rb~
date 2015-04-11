@@ -1,0 +1,8 @@
+module RailsDb
+  class ParamsOriginal
+
+    def make_insert_params(prms, cast_type)
+    end
+
+  end
+end

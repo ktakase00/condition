@@ -44,4 +44,6 @@ group :development, :test do
 end
 
 gem 'condition', path: '../..'
+gem 'rspec-rails', group: :development
+gem 'rb-readline', '~> 0.4.2', group: :development
 
